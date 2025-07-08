@@ -1,5 +1,3 @@
-// src/routes/contactsRoutes.js
-
 import express from 'express';
 import {
   getContactsController,
@@ -9,6 +7,6 @@ import {
 const router = express.Router();
 
 router.get('/', getContactsController);
-router.get('/:contactId', getContactByIdController); // 🆕
+router.get('/:contactId', getContactByIdController);
 
 export default router;

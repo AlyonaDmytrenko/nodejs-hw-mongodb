@@ -5,26 +5,29 @@ const contactSchema = new mongoose.Schema(
     id: {
       type: String,
       required: true,
-      unique: true,  // унікальний ідентифікатор (UUID)
+      unique: true, 
     },
     name: {
       type: String,
       required: true,
     },
-    phone: {          // поле "phone" як у JSON
+    phone: {          
       type: String,
       required: true,
     },
     email: {
       type: String,
     },
-    job: {            // поле "job" додано відповідно до JSON
+    job: {            
       type: String,
     },
   },
   {
-    timestamps: true,  // автоматичні поля createdAt та updatedAt
+    timestamps: true, 
   }
 );
+
+
+
 
 export const Contact = mongoose.model('Contact', contactSchema);
