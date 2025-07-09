@@ -5,13 +5,13 @@ export const getContacts = async (req, res) => {
     const contacts = await ContactsService.getAllContacts();
     res.status(200).json({
       status: 200,
-      message: "Successfully found contacts!",
+      message: 'Successfully found contacts!',
       data: contacts,
     });
   } catch (error) {
     console.log(error);
-    
-    res.status(500).json({ message: "Server error" });
+
+    res.status(500).json({ message: 'Server error' });
   }
 };
 
@@ -21,7 +21,7 @@ export const getContact = async (req, res) => {
     const contact = await ContactsService.getContactById(contactId);
 
     if (!contact) {
-      return res.status(404).json({ message: "Contact not found" });
+      return res.status(404).json({ message: 'Contact not found' });
     }
 
     res.status(200).json({
@@ -31,6 +31,6 @@ export const getContact = async (req, res) => {
     });
   } catch (error) {
     console.log(error);
-    res.status(500).json({ message: "Server error" });
+    res.status(500).json({ message: 'Server error' });
   }
 };
