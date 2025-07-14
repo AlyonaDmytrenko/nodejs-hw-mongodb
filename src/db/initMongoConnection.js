@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
-dotenv.config();
+
+dotenv.config({ path: '.env.example' }); 
 
 const { MONGODB_URL } = process.env;
 
