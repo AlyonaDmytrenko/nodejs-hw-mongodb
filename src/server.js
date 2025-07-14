@@ -9,8 +9,6 @@ export function setupServer() {
   app.get('/contacts/:contactId', getContact);
 
   
-  
-
   app.get('/', (req, res) => {
   res.json({
     status: 200,
