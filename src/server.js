@@ -9,12 +9,21 @@ export function setupServer() {
   app.get('/contacts/:contactId', getContact);
 
   
+  
+
   app.get('/', (req, res) => {
   res.json({
     status: 200,
     message: 'Welcome to the Contacts API'
   });
 });
+  app.use((req, res) => {
+    res.status(404).json({
+      status: 404,
+      message: 'Not found'
+    });
+  });
+
 
   return app;
 }
