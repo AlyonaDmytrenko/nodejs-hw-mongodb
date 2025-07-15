@@ -1,18 +1,27 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 
+dotenv.config();
 
-dotenv.config({ path: '.env.example' }); 
-
-const { MONGODB_URL } = process.env;
+const {
+  MONGODB_USER,
+  MONGODB_PASSWORD,
+  MONGODB_URL,
+  MONGODB_DB
+} = process.env;
 
 export const initMongoConnection = async () => {
-  if (!MONGODB_URL) {
-    throw new Error('Missing MongoDB URI!');
+  if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_URL || !MONGODB_DB) {
+    throw new Error('Missing MongoDB connection environment variables!');
   }
 
+  const uri = `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}/${MONGODB_DB}?retryWrites=true&w=majority`;
+
   try {
-    await mongoose.connect(MONGODB_URL);
+    await mongoose.connect(uri, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
     console.log('Mongo connection successfully established!');
   } catch (error) {
     console.error('Mongo connection error:', error);
