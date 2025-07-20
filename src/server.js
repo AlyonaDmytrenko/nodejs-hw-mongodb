@@ -1,29 +1,25 @@
 import express from 'express';
-import { getContacts, getContact } from './controllers/contactsController.js';
+import contactsRouter from './routes/contactsRoutes.js';
+import { errorHandler } from './middlewares/errorHandler.js';
+import notFoundHandler from './middlewares/notFoundHandler.js';
 
 export function setupServer() {
   const app = express();
+
   app.use(express.json());
 
-  app.get('/contacts', getContacts);
-  app.get('/contacts/:contactId', getContact);
-
-  
-  
-
   app.get('/', (req, res) => {
-  res.json({
-    status: 200,
-    message: 'Welcome to the Contacts API'
-  });
-});
-  app.use((req, res) => {
-    res.status(404).json({
-      status: 404,
-      message: 'Not found'
+    res.status(200).json({
+      status: 200,
+      message: 'Welcome to the Contacts API',
     });
   });
 
+  app.use('/contacts', contactsRouter);
+
+  app.use(notFoundHandler);
+
+  app.use(errorHandler);
 
   return app;
 }
