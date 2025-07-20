@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "goit-node-js",
   "type": "module",
-  "hw3-crud": "index.js",
+  "hw3-crud": "src/index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
