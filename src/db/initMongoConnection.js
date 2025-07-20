@@ -12,19 +12,16 @@ const {
 
 export const initMongoConnection = async () => {
   if (!MONGODB_USER || !MONGODB_PASSWORD || !MONGODB_URL || !MONGODB_DB) {
-    throw new Error('Missing MongoDB connection environment variables!');
+    throw new Error('Відсутні змінні середовища для підключення до MongoDB!');
   }
 
   const uri = `mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_URL}/${MONGODB_DB}?retryWrites=true&w=majority`;
 
   try {
-    await mongoose.connect(uri, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log('Mongo connection successfully established!');
+    await mongoose.connect(uri);
+    console.log('Підключення до MongoDB встановлено успішно!');
   } catch (error) {
-    console.error('Mongo connection error:', error);
+    console.error('Помилка підключення до MongoDB:', error);
     process.exit(1);
   }
 };
