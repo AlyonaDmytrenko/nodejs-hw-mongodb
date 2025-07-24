@@ -54,6 +54,8 @@ export const updateContact = async (req, res) => {
   }
 
   res.status(200).json({
-    data: updated, 
+    status: 200,
+    message: 'Successfully patched a contact!',
+    data: updated,
   });
 };
