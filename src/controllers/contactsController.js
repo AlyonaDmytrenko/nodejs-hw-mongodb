@@ -59,3 +59,59 @@ export const updateContact = async (req, res) => {
     data: updated,
   });
 };
+
+
+export const patchContact = async (req, res) => {
+  const { contactId } = req.params;
+
+  const sanitizedContactId = contactId.trim();
+
+  const { name, phoneNumber, email, isFavourite, contactType } = req.body;
+
+  try {
+  
+    console.log('Sanitized Contact ID:', sanitizedContactId);
+
+  
+    const contact = await ContactsService.getContactById(sanitizedContactId);
+    if (!contact) {
+      throw createError(404, 'Contact not found');
+    }
+
+   
+    const updatedData = {
+      name: name || contact.name,
+      phoneNumber: phoneNumber || contact.phoneNumber,
+      email: email || contact.email,
+      isFavourite: isFavourite !== undefined ? isFavourite : contact.isFavourite,
+      contactType: contactType || contact.contactType
+    };
+
+    
+    const updatedContact = await ContactsService.updateContact(sanitizedContactId, updatedData);
+
+    
+    console.log('Updated contact:', updatedContact);
+
+
+    res.status(200).json({
+      status: 200,
+      message: "Successfully patched a contact!",
+      data: updatedContact
+    });
+  } catch (error) {
+    
+    console.error('Error during patching contact:', error);
+
+    if (error.status === 404) {
+      return res.status(404).json({ status: 404, message: error.message });
+    }
+
+    
+    res.status(500).json({
+      status: 500,
+      message: "Something went wrong",
+      error: error.message
+    });
+  }
+};

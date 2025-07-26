@@ -20,10 +20,15 @@ const updateContact = async (contactId, payload) => {
   return await Contact.findByIdAndUpdate(contactId, payload, { new: true });
 };
 
+export const patchContactById = async (contactId, updateData) => {
+ return await Contact.findByIdAndUpdate(contactId, updateData, { new: true });
+};
+
 export default {
   getAllContacts,
   getContactById,
   createContact,
   deleteContact,
   updateContact,
+  patchContactById 
 };
