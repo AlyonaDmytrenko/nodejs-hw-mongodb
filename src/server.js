@@ -21,6 +21,7 @@ export function setupServer() {
   app.use(notFoundHandler);
 
   app.use(errorHandler);
+  
 
   return app;
 }

@@ -1,16 +1,22 @@
 import { isValidObjectId } from 'mongoose';
 
-export function validId(req, res, next) {
-    if (isValidObjectId(req.params.id) !== true) {
-        return res.status(400).json({ status: 'error', message: 'ID is not valid' });
-    }
-    console.log(req.params.id);
+export function isValidId(req, res, next) {
+  
+  const contactId = req.params.contactId.trim(); 
 
-    next();
-}
+  console.log("Raw contactId:", req.params.contactId);  
 
-export function validateBody(req, res, next){
-    console.log(req.body);
-    
-    next();
+  if (!isValidObjectId(contactId)) {
+    return res.status(400).json({ 
+      status: 'error', 
+      message: 'ID is not valid' 
+    });
+  }
+
+  console.log('Valid ID:', contactId); 
+
+
+  req.params.contactId = contactId;
+
+  next(); 
 }
