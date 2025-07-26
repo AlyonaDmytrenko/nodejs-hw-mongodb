@@ -1,8 +1,16 @@
 import ContactsService from '../services/contacts.js';
 import createError from 'http-errors';
 
+import{parsePaginationParams} from "../utils/parsePaginationParams.js";
+
 export const getContacts = async (req, res) => {
-  const contacts = await ContactsService.getAllContacts();
+
+  const {page, perPage}= parsePaginationParams(req.query);
+
+  console.log(page, perPage);
+  
+
+  const contacts = await ContactsService.getAllContacts(page, perPage);
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -42,7 +50,7 @@ export const deleteContact = async (req, res) => {
     throw createError(404, 'Contact not found');
   }
 
-  res.sendStatus(204); 
+  res.sendStatus(204);
 };
 
 export const updateContact = async (req, res) => {
@@ -69,16 +77,16 @@ export const patchContact = async (req, res) => {
   const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
   try {
-  
+
     console.log('Sanitized Contact ID:', sanitizedContactId);
 
-  
+
     const contact = await ContactsService.getContactById(sanitizedContactId);
     if (!contact) {
       throw createError(404, 'Contact not found');
     }
 
-   
+
     const updatedData = {
       name: name || contact.name,
       phoneNumber: phoneNumber || contact.phoneNumber,
@@ -87,10 +95,10 @@ export const patchContact = async (req, res) => {
       contactType: contactType || contact.contactType
     };
 
-    
+
     const updatedContact = await ContactsService.updateContact(sanitizedContactId, updatedData);
 
-    
+
     console.log('Updated contact:', updatedContact);
 
 
@@ -100,14 +108,14 @@ export const patchContact = async (req, res) => {
       data: updatedContact
     });
   } catch (error) {
-    
+
     console.error('Error during patching contact:', error);
 
     if (error.status === 404) {
       return res.status(404).json({ status: 404, message: error.message });
     }
 
-    
+
     res.status(500).json({
       status: 500,
       message: "Something went wrong",

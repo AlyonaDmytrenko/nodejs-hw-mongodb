@@ -1,7 +1,12 @@
 import { Contact } from '../models/contactModel.js';
 
-const getAllContacts = async () => {
-  return await Contact.find();
+const getAllContacts = async (page, perPage) => {
+
+  const skip = page > 0 ? (page - 1) * perPage : 0;
+
+  const contactQuery = Contact.find();
+
+  return await contactQuery.skip(skip).limit(perPage);
 };
 
 const getContactById = async (contactId) => {
@@ -21,7 +26,7 @@ const updateContact = async (contactId, payload) => {
 };
 
 export const patchContactById = async (contactId, updateData) => {
- return await Contact.findByIdAndUpdate(contactId, updateData, { new: true });
+  return await Contact.findByIdAndUpdate(contactId, updateData, { new: true });
 };
 
 export default {
@@ -30,5 +35,5 @@ export default {
   createContact,
   deleteContact,
   updateContact,
-  patchContactById 
+  patchContactById
 };

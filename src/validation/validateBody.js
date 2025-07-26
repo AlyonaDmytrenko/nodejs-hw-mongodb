@@ -13,8 +13,6 @@ export function validateBody(schema) {
         } catch (error) {
             const errors = error.details.map(detail => detail.message);
 
-
-            
             next(new createHttpError.BadRequest(errors));
 
         }
