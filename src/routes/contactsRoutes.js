@@ -9,12 +9,14 @@ import {
 
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 
+import {isValidId} from '../middlewares/isValidId.js';
+
 const router = express.Router();
 
 router.get('/', ctrlWrapper(getContacts));
-router.get('/:contactId', ctrlWrapper(getContact));
+router.get('/:contactId', isValidId, ctrlWrapper(getContact));
 router.post('/', ctrlWrapper(createContact));
-router.delete('/:contactId', ctrlWrapper(deleteContact));
-router.put('/:contactId', ctrlWrapper(updateContact));
+router.delete('/:contactId', isValidId,  ctrlWrapper(deleteContact));
+router.put('/:contactId', isValidId, ctrlWrapper(updateContact));
 
 export default router;
