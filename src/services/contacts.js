@@ -1,16 +1,27 @@
 import { Contact } from '../models/contactModel.js';
+import { parseFilterParams } from "../utils/parseFilterParams.js";  
 
-const getAllContacts = async (page, perPage, sortBy, sortOrder) => {
+const getAllContacts = async (page, perPage, sortBy, sortOrder, query) => {
   const skip = page > 0 ? (page - 1) * perPage : 0;
 
 
-  const contactQuery = Contact.find();
-
-  //  const [totalItems, contacts] = await Promise.all([Contact.find().countDocuments(await contactQuery.skip(skip).limit(perPage))]);
+  const filter = parseFilterParams(query);
 
 
+  let contactQuery = Contact.find();
 
-  const totalItems = await Contact.find().countDocuments();
+
+  if (filter.contactType) {
+    contactQuery = contactQuery.where('contactType').equals(filter.contactType);
+  }
+  if (typeof filter.isFavourite !== 'undefined') {
+    contactQuery = contactQuery.where('isFavourite').equals(filter.isFavourite);
+  }
+
+ 
+  const totalItems = await Contact.countDocuments(filter); 
+
+
   const contacts = await contactQuery.sort({ [sortBy]: sortOrder }).skip(skip).limit(perPage);
 
 
@@ -19,7 +30,6 @@ const getAllContacts = async (page, perPage, sortBy, sortOrder) => {
 
   const hasPreviousPage = page > 1;
   const hasNextPage = page < totalPages;
-
 
   return {
     status: 200,
@@ -64,6 +74,3 @@ export default {
   updateContact,
   patchContactById
 };
-
-
-// import { Contact } from '../models/contactModel.js';

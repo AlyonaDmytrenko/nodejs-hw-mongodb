@@ -3,15 +3,17 @@ import createError from 'http-errors';
 
 import{parsePaginationParams} from "../utils/parsePaginationParams.js";
 import {parseSortParams} from "../utils/parseSortParams.js";
+import {parseFilterParams} from "../utils/parseFilterParams.js";
 
 export const getContacts = async (req, res) => {
 
   const {page, perPage}= parsePaginationParams(req.query);
   const {sortBy, sortOrder} = parseSortParams(req.query);
+  const filter = parseFilterParams(req.query);
 
  
 
-  const contacts = await ContactsService.getAllContacts(page, perPage, sortBy, sortOrder);
+  const contacts = await ContactsService.getAllContacts(page, perPage, sortBy, sortOrder, filter);
 
   res.status(200).json({
     status: 200,
