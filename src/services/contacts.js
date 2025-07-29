@@ -32,9 +32,6 @@ const getAllContacts = async (page, perPage, sortBy, sortOrder, query) => {
   const hasNextPage = page < totalPages;
 
   return {
-    status: 200,
-    message: "Successfully found contacts!",
-    data: {
       data: contacts,
       page: page,
       perPage: perPage,
@@ -42,7 +39,6 @@ const getAllContacts = async (page, perPage, sortBy, sortOrder, query) => {
       totalPages: totalPages,
       hasPreviousPage,
       hasNextPage
-    }
   };
 };
 
@@ -74,3 +70,5 @@ export default {
   updateContact,
   patchContactById
 };
+
+
