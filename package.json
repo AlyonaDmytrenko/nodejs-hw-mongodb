@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "goit-node-js",
   "type": "module",
-  "hw4-validation": "index.js",
+  "hw5-auth": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js",
     "start": "node src/index.js"
