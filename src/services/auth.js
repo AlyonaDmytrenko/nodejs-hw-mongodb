@@ -4,7 +4,7 @@ import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 
-export async function registrUswer(payload) {
+export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
 
   if (user !== null) {
@@ -43,3 +43,33 @@ export async function loginUser(email, password) {
 export async function logoutUser(sessionId){
   await Session.deleteOne({_id: sessionId});
 }
+
+export async function refreshSession(sessionId, refreshToken) {
+  
+  const session =await Session.findById(sessionId);
+
+  if (session === null){
+    throw new createHttpError.Unauthorized("Session not found");
+  }
+  if (session.refreshToken !== refreshToken){
+    throw new createHttpError.Unauthorized("Refresh token is invalid");
+  }
+
+  if (sessionId.refreshTokenValidUntil< new Date()){
+    throw new createHttpError.Unauthorized("Session not expired");
+
+  }
+
+
+  //окрема функція
+  await Session.deleteOne({ _id: session._id });
+
+ return Session.create({
+    userId: session.userId,
+    accessToken: crypto.randomBytes(30).toString("base64"),
+    refreshToken: crypto.randomBytes(30).toString("base64"),
+    accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000), //10minutes
+    refreshTokenValidUntil: new Date(Date.now()+24*60*60*1000), //24 houers
+  });
+
+} 
