@@ -15,6 +15,9 @@ export const getContacts = async (req, res) => {
 
   const contacts = await ContactsService.getAllContacts(page, perPage, sortBy, sortOrder, filter);
 
+ 
+   console.log(req.user);
+
   res.status(200).json({
     status: 200,
     message: 'Successfully found contacts!',
@@ -38,7 +41,8 @@ export const getContact = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-  const newContact = await ContactsService.createContact(req.body);
+  const newContact = await ContactsService.createContact(...req.body, ownerId: req.user.id);
+
   res.status(201).json({
     status: 201,
     message: 'Successfully created a contact!',

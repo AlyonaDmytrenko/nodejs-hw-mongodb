@@ -55,7 +55,7 @@ export async function refreshSession(sessionId, refreshToken) {
     throw new createHttpError.Unauthorized("Refresh token is invalid");
   }
 
-  if (sessionId.refreshTokenValidUntil< new Date()){
+  if (session.refreshTokenValidUntil< new Date()){
     throw new createHttpError.Unauthorized("Session not expired");
 
   }
