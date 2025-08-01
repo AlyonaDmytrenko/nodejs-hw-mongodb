@@ -1,4 +1,4 @@
-// import { required, types } from 'joi';
+
 import mongoose from 'mongoose';
 
 const contactSchema = new mongoose.Schema({
@@ -23,10 +23,10 @@ const contactSchema = new mongoose.Schema({
     required: true,
     default: 'personal',
   },
-  ownerId: {
-    types: mongoose.Schema.Types.ObjectId,
-    required: true,
-  },
+  // ownerId: {
+  //   types: mongoose.Schema.Types.ObjectId,
+  //   required: true,
+  // },
 });
 
 export const Contact = mongoose.model('Contact', contactSchema);
