@@ -23,10 +23,11 @@ const contactSchema = new mongoose.Schema({
     required: true,
     default: 'personal',
   },
-  // ownerId: {
-  //   types: mongoose.Schema.Types.ObjectId,
-  //   required: true,
-  // },
+ownerId: {
+  type: mongoose.Schema.Types.ObjectId,
+  required: true,
+  ref: 'User', 
+},
 });
 
 export const Contact = mongoose.model('Contact', contactSchema);

@@ -8,7 +8,7 @@ export async function auth(req, res, next) {
   const { authorization } = req.headers;
 
   if (typeof authorization !== 'string') {
-    throw new createHttpError.Unauthorized('Plase provide accss token');
+    throw new createHttpError.Unauthorized('Please provide access token');
   }
 
   const [bearer, accessToken] = authorization.split(' ', 2);
@@ -27,7 +27,7 @@ export async function auth(req, res, next) {
     throw new createHttpError.Unauthorized("Access token is expired");
   }
 
-  const user = await User.findByid(session.userId);
+  const user = await User.findById(session.userId);
 
   if (user === null){
     throw new createHttpError.Unauthorized("User not found");

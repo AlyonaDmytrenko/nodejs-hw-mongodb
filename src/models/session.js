@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const sessionSchema = new mongoose.Schema({
   userId: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   },
-
   accessToken: {
     type: String,
     required: true,
@@ -22,11 +22,9 @@ const sessionSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
-},
-    {
-        timestamps: true,
-        versionKey: false,
-    },
-);
+}, {
+  timestamps: true,
+  versionKey: false,
+});
 
 export const Session = mongoose.model("Session", sessionSchema);
