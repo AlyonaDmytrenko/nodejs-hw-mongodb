@@ -1,4 +1,3 @@
-
 import mongoose from 'mongoose';
 
 const contactSchema = new mongoose.Schema({
@@ -23,11 +22,15 @@ const contactSchema = new mongoose.Schema({
     required: true,
     default: 'personal',
   },
-ownerId: {
-  type: mongoose.Schema.Types.ObjectId,
-  required: true,
-  ref: 'User', 
+     userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: 'User',
+  },
 },
+{
+  timestamps: true,
+  versionKey: false,
 });
 
 export const Contact = mongoose.model('Contact', contactSchema);

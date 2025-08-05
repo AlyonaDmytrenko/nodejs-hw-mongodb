@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: 'personal',
     },
-   
+
   },
   {
     timestamps: true,
