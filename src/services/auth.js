@@ -4,6 +4,7 @@ import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
+import {sendMail} from "../utils/sendMail.js";
 
 import dotenv from 'dotenv';
 
@@ -89,8 +90,15 @@ export async function requestPasswordReset(email) {
     dotenv('SECRET_JWT'),
     {
       expiresIn: "15m"
-    }
+    },
+    console.log(token),
+    
   );
-  console.log(token);
+  await sendMail({
+    to: email,
+    subject: "Reset password",
+    html:`<p>To reset password please visit this <a href= "http://localhost/3000/auth/send-reset-email/${token}/">Link</a></p>`
+
+  });
 }
  
