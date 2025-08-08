@@ -1,4 +1,9 @@
-import { registerUser, loginUser, logoutUser, refreshSession } from '../services/auth.js';
+import {
+  registerUser,
+  loginUser,
+  logoutUser,
+  refreshSession,
+} from '../services/auth.js';
 
 export async function registerController(req, res) {
   const user = await registerUser(req.body);
@@ -41,11 +46,10 @@ export async function logoutController(req, res) {
 }
 
 export async function refreshController(req, res) {
-
-  const {sessionId, refreshToken} = req.cookies;
+  const { sessionId, refreshToken } = req.cookies;
 
   const session = await refreshSession(sessionId, refreshToken);
-   res.cookie('sessionId', session._id, {
+  res.cookie('sessionId', session._id, {
     httpOnly: true,
     expires: session.refreshTokenValidUntil,
   });

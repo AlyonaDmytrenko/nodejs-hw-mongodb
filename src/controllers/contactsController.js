@@ -1,9 +1,9 @@
 import ContactsService from '../services/contacts.js';
 import createError from 'http-errors';
 
-import { parsePaginationParams } from "../utils/parsePaginationParams.js";
-import { parseSortParams } from "../utils/parseSortParams.js";
-import { parseFilterParams } from "../utils/parseFilterParams.js";
+import { parsePaginationParams } from '../utils/parsePaginationParams.js';
+import { parseSortParams } from '../utils/parseSortParams.js';
+import { parseFilterParams } from '../utils/parseFilterParams.js';
 
 export const getContacts = async (req, res) => {
   const { page, perPage } = parsePaginationParams(req.query);
@@ -15,7 +15,7 @@ export const getContacts = async (req, res) => {
     perPage,
     sortBy,
     sortOrder,
-    { ...filter, userId: req.user.id }
+    { ...filter, userId: req.user.id },
   );
 
   res.status(200).json({
@@ -41,7 +41,7 @@ export const getContact = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
-  req.body.userId = req.user.id; 
+  req.body.userId = req.user.id;
   const newContact = await ContactsService.createContact(req.body);
 
   res.status(201).json({
@@ -64,7 +64,11 @@ export const deleteContact = async (req, res) => {
 
 export const updateContact = async (req, res) => {
   const { contactId } = req.params;
-  const updated = await ContactsService.updateContact(contactId, req.body, req.user.id);
+  const updated = await ContactsService.updateContact(
+    contactId,
+    req.body,
+    req.user.id,
+  );
 
   if (!updated) {
     throw createError(404, 'Contact not found');
@@ -84,7 +88,10 @@ export const patchContact = async (req, res) => {
   const { name, phoneNumber, email, isFavourite, contactType } = req.body;
 
   try {
-    const contact = await ContactsService.getContactById(sanitizedContactId, req.user.id);
+    const contact = await ContactsService.getContactById(
+      sanitizedContactId,
+      req.user.id,
+    );
 
     if (!contact) {
       throw createError(404, 'Contact not found');
@@ -94,15 +101,20 @@ export const patchContact = async (req, res) => {
       name: name ?? contact.name,
       phoneNumber: phoneNumber ?? contact.phoneNumber,
       email: email ?? contact.email,
-      isFavourite: isFavourite !== undefined ? isFavourite : contact.isFavourite,
+      isFavourite:
+        isFavourite !== undefined ? isFavourite : contact.isFavourite,
       contactType: contactType ?? contact.contactType,
     };
 
-    const updatedContact = await ContactsService.updateContact(sanitizedContactId, updatedData, req.user.id);
+    const updatedContact = await ContactsService.updateContact(
+      sanitizedContactId,
+      updatedData,
+      req.user.id,
+    );
 
     res.status(200).json({
       status: 200,
-      message: "Successfully patched a contact!",
+      message: 'Successfully patched a contact!',
       data: updatedContact,
     });
   } catch (error) {
@@ -112,7 +124,7 @@ export const patchContact = async (req, res) => {
 
     res.status(500).json({
       status: 500,
-      message: "Something went wrong",
+      message: 'Something went wrong',
       error: error.message,
     });
   }

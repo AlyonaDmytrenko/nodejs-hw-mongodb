@@ -22,18 +22,18 @@ export async function auth(req, res, next) {
   if (session === null) {
     throw new createHttpError.Unauthorized('Session not found');
   }
-  
-  if (session.accessTokenValidUntil< new Date()){
-    throw new createHttpError.Unauthorized("Access token is expired");
+
+  if (session.accessTokenValidUntil < new Date()) {
+    throw new createHttpError.Unauthorized('Access token is expired');
   }
 
   const user = await User.findById(session.userId);
 
-  if (user === null){
-    throw new createHttpError.Unauthorized("User not found");
+  if (user === null) {
+    throw new createHttpError.Unauthorized('User not found');
   }
 
-  req.user = {id: user._id, name: user.name};
+  req.user = { id: user._id, name: user.name };
 
   next();
 }

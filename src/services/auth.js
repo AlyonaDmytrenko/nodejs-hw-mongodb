@@ -1,4 +1,4 @@
-import crypto from "node:crypto";
+import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
@@ -31,45 +31,41 @@ export async function loginUser(email, password) {
 
   await Session.deleteOne({ userId: user._id });
 
- return Session.create({
+  return Session.create({
     userId: user._id,
-    accessToken: crypto.randomBytes(30).toString("base64"),
-    refreshToken: crypto.randomBytes(30).toString("base64"),
+    accessToken: crypto.randomBytes(30).toString('base64'),
+    refreshToken: crypto.randomBytes(30).toString('base64'),
     accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000), //10minutes
-    refreshTokenValidUntil: new Date(Date.now()+24*60*60*1000), //24 houers
+    refreshTokenValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000), //24 houers
   });
 }
 
-export async function logoutUser(sessionId){
-  await Session.deleteOne({_id: sessionId});
+export async function logoutUser(sessionId) {
+  await Session.deleteOne({ _id: sessionId });
 }
 
 export async function refreshSession(sessionId, refreshToken) {
-  
-  const session =await Session.findById(sessionId);
+  const session = await Session.findById(sessionId);
 
-  if (session === null){
-    throw new createHttpError.Unauthorized("Session not found");
+  if (session === null) {
+    throw new createHttpError.Unauthorized('Session not found');
   }
-  if (session.refreshToken !== refreshToken){
-    throw new createHttpError.Unauthorized("Refresh token is invalid");
-  }
-
-  if (session.refreshTokenValidUntil< new Date()){
-    throw new createHttpError.Unauthorized("Session not expired");
-
+  if (session.refreshToken !== refreshToken) {
+    throw new createHttpError.Unauthorized('Refresh token is invalid');
   }
 
+  if (session.refreshTokenValidUntil < new Date()) {
+    throw new createHttpError.Unauthorized('Session not expired');
+  }
 
   //окрема функція
   await Session.deleteOne({ _id: session._id });
 
- return Session.create({
+  return Session.create({
     userId: session.userId,
-    accessToken: crypto.randomBytes(30).toString("base64"),
-    refreshToken: crypto.randomBytes(30).toString("base64"),
+    accessToken: crypto.randomBytes(30).toString('base64'),
+    refreshToken: crypto.randomBytes(30).toString('base64'),
     accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000), //10minutes
-    refreshTokenValidUntil: new Date(Date.now()+24*60*60*1000), //24 houers
+    refreshTokenValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000), //24 houers
   });
-
-} 
+}
