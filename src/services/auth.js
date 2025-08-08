@@ -4,7 +4,7 @@ import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
-import {sendMail} from "../utils/sendMail.js";
+import { sendMail } from '../utils/sendMail.js';
 
 import dotenv from 'dotenv';
 
@@ -89,16 +89,36 @@ export async function requestPasswordReset(email) {
     },
     dotenv('SECRET_JWT'),
     {
-      expiresIn: "15m"
+      expiresIn: '15m',
     },
     console.log(token),
-    
   );
   await sendMail({
     to: email,
-    subject: "Reset password",
-    html:`<p>To reset password please visit this <a href= "http://localhost/3000/auth/reset-password?/${token}/">Link</a></p>`
-
+    subject: 'Reset password',
+    html: `<p>To reset password please visit this <a href= "http://localhost/3000/auth/reset-password?/${token}/">Link</a></p>`,
   });
 }
- 
+
+export async function resetPassword(token, password) {
+  try {
+    const decoded = jwt.verify(token, dotenv('SECRET_JWT'));
+
+    const user = await User.findById(decoded.sub);
+
+    if (user === null) {
+      throw new createHttpError.NotFound('User not found');
+    }
+    const hashedPassword = await bcrypt.hash(password, 10);
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+  } catch (error) {
+    if (error.name === 'TokenExpiredError') {
+      throw new createHttpError.Unauthorized('Token is expired');
+    }
+
+    if (error.name === "JsonWebTokenError"){
+      throw new createHttpError.Unauthorized("Token is unauthorized");
+    }
+    throw error;
+  }
+}
