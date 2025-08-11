@@ -1,3 +1,6 @@
+import *fs from "node:fs";
+import path from "node:path";
+
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
@@ -6,7 +9,11 @@ import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
 
+import Handlebars from 'handlebars';
+
 import dotenv from 'dotenv';
+
+const REQUEST_PASSWORD_RESET_TAMPLATE=fs.readFileSync(path.resolve("src/tamplates/request-password-reset.hbs", {encoding: "utf-8"}));
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
