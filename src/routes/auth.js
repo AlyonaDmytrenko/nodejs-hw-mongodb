@@ -7,6 +7,8 @@ import {
   requestPasswordResetController,
   resetPaswordController,
 } from '../controllers/auth.js';
+
+
 import { validateBody } from '../validation/validateBody.js';
 import {
   registerSchema,
@@ -20,7 +22,7 @@ const router = express.Router();
 
 router.post(
   '/register',
-  validateBody(registerSchema),
+   validateBody(registerSchema),
   ctrlWrapper(registerController),
 );
 
