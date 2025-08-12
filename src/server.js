@@ -2,9 +2,9 @@ import express from 'express';
 import contactsRouter from './routes/contactsRoutes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import notFoundHandler from './middlewares/notFoundHandler.js';
-import authRoutes from "./routes/auth.js";
+import authRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
-import {auth} from "./middlewares/auth.js";
+import { auth } from './middlewares/auth.js';
 
 export function setupServer() {
   const app = express();
@@ -12,7 +12,7 @@ export function setupServer() {
   app.use(express.json());
   app.use(cookieParser());
 
-app.use("/auth", authRoutes);
+  app.use('/auth', authRoutes);
 
   app.get('/', (req, res) => {
     res.status(200).json({
@@ -26,7 +26,6 @@ app.use("/auth", authRoutes);
   app.use(notFoundHandler);
 
   app.use(errorHandler);
-  
 
   return app;
 }
