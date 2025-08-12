@@ -1,5 +1,5 @@
-import *fs from "node:fs";
-import path from "node:path";
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
@@ -13,7 +13,10 @@ import Handlebars from 'handlebars';
 
 import dotenv from 'dotenv';
 
-const REQUEST_PASSWORD_RESET_TAMPLATE=fs.readFileSync(path.resolve("src/tamplates/request-password-reset.hbs", {encoding: "utf-8"}));
+const REQUEST_PASSWORD_RESET_TAMPLATE = fs.readFileSync(
+  path.resolve('src/templates/request-password-reset.hbs'),
+  { encoding: 'utf-8' },
+);
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -100,10 +103,15 @@ export async function requestPasswordReset(email) {
     },
     console.log(token),
   );
+
+  const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
+
   await sendMail({
     to: email,
     subject: 'Reset password',
-    html: `<p>To reset password please visit this <a href= "http://localhost/3000/auth/reset-password?/${token}/">Link</a></p>`,
+    html: template({
+      resetPasswordLink: `"http://localhost/3000/auth/reset-password?/${token}/">Link</a></p>`,
+    }),
   });
 }
 
@@ -123,8 +131,8 @@ export async function resetPassword(token, password) {
       throw new createHttpError.Unauthorized('Token is expired');
     }
 
-    if (error.name === "JsonWebTokenError"){
-      throw new createHttpError.Unauthorized("Token is unauthorized");
+    if (error.name === 'JsonWebTokenError') {
+      throw new createHttpError.Unauthorized('Token is unauthorized');
     }
     throw error;
   }
