@@ -110,7 +110,7 @@ export async function requestPasswordReset(email) {
     to: email,
     subject: 'Reset password',
     html: template({
-      resetPasswordLink: `"http://localhost/3000/auth/reset-password?/${token}/">Link</a></p>`,
+      resetPasswordLink: `http://localhost/3000/auth/reset-password?/${token}/`,
     }),
   });
 }
