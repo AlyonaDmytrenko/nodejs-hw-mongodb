@@ -1,5 +1,9 @@
 import ContactsService from '../services/contacts.js';
 import createError from 'http-errors';
+import * as fs from 'node:fs/promises';
+import path from 'node:path';
+
+import { uploadToCloudinary } from '../utils/uploadToCloudinary.js';
 
 import { parsePaginationParams } from '../utils/parsePaginationParams.js';
 import { parseSortParams } from '../utils/parseSortParams.js';
@@ -41,8 +45,27 @@ export const getContact = async (req, res) => {
 };
 
 export const createContact = async (req, res) => {
+  let avatar = null;
+
+  if (process.env.UPLOAD_TO_CLOUDINARY === "true") {
+    const result = await uploadToCloudinary(req.file.path);
+    await fs.unlink(req.file.path);
+
+    avatar = result.secure_url;
+  } else {
+    await fs.rename(
+      req.file.path,
+      path.resolve('src/uploads/avatars', req.file.filename),
+    );
+    avatar = `http://localhost:3000/avatars/${req.file.filename}`;
+  }
+
   req.body.userId = req.user.id;
-  const newContact = await ContactsService.createContact(req.body);
+
+  const newContact = await ContactsService.createContact({
+    ...req.body,
+    avatar,
+  });
 
   res.status(201).json({
     status: 201,

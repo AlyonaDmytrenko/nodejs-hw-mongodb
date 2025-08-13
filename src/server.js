@@ -1,3 +1,4 @@
+import path from 'node:path';
 import express from 'express';
 import contactsRouter from './routes/contactsRoutes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
@@ -11,6 +12,8 @@ export function setupServer() {
 
   app.use(express.json());
   app.use(cookieParser());
+
+  app.use('/avatars', express.static(path.resolve('src/uploads/avatars')));
 
   app.use('/auth', authRoutes);
 
