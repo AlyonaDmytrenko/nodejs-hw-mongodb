@@ -13,7 +13,7 @@ export function setupServer() {
   app.use(express.json());
   app.use(cookieParser());
 
-  app.use('/avatars', express.static(path.resolve('src/uploads/avatars')));
+  app.use('/photos', express.static(path.resolve('src/uploads/photos')));
 
   app.use('/auth', authRoutes);
 

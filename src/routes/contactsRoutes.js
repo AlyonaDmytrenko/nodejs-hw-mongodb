@@ -25,8 +25,8 @@ router.get('/', auth, ctrlWrapper(getContacts));
 router.get('/:contactId', auth, isValidId, ctrlWrapper(getContact));
 router.post(
   '/',
-  upload.single("avatar"),
   auth,
+  upload.single("photo"),
   validateBody(contactSchema),
   ctrlWrapper(createContact),
 );

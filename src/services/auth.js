@@ -11,7 +11,6 @@ import { sendMail } from '../utils/sendMail.js';
 
 import Handlebars from 'handlebars';
 
-import dotenv from 'dotenv';
 
 const REQUEST_PASSWORD_RESET_TAMPLATE = fs.readFileSync(
   path.resolve('src/templates/request-password-reset.hbs'),
@@ -69,7 +68,7 @@ export async function refreshSession(sessionId, refreshToken) {
   }
 
   if (session.refreshTokenValidUntil < new Date()) {
-    throw new createHttpError.Unauthorized('Session not expired');
+    throw new createHttpError.Unauthorized('Session has expired');
   }
 
   //окрема функція
@@ -92,17 +91,17 @@ export async function requestPasswordReset(email) {
     return;
   }
 
-  const token = jwt.sign(
-    {
-      sub: user._id,
-      name: user.name,
-    },
-    dotenv('SECRET_JWT'),
-    {
-      expiresIn: '15m',
-    },
-    console.log(token),
-  );
+const token = jwt.sign(
+  {
+    sub: user._id,
+    name: user.name,
+  },
+  process.env.SECRET_JWT,
+  {
+    expiresIn: '15m',
+  }
+);
+
 
   const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
 
@@ -110,14 +109,14 @@ export async function requestPasswordReset(email) {
     to: email,
     subject: 'Reset password',
     html: template({
-      resetPasswordLink: `http://localhost/3000/auth/reset-password?/${token}/`,
+      resetPasswordLink: `http://localhost:3000/auth/reset-password?token=${token}`,
     }),
   });
 }
 
 export async function resetPassword(token, password) {
   try {
-    const decoded = jwt.verify(token, dotenv('SECRET_JWT'));
+    const decoded = jwt.verify(token, process.env.SECRET_JWT);
 
     const user = await User.findById(decoded.sub);
 
