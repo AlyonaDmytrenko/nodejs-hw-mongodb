@@ -41,6 +41,7 @@ router.put(
 router.patch(
   '/:contactId',
   auth,
+  upload.single('photo'),
   isValidId,
   validateBody(updateContactSchema),
   ctrlWrapper(patchContact),
