@@ -6,14 +6,18 @@ import {
   refreshController,
   requestPasswordResetController,
   resetPasswordController,
+  getOAuthController,
+  confirmOAuthController,
 } from '../controllers/auth.js';
 
-import { validateBody } from '../validation/validateBody.js';
+import {validateBody} from "../validation/validateBody.js";
+
 import {
   registerSchema,
   loginSchema,
   requestPasswordResetSchema,
   resetPasswordSchema,
+  confirmOAuthSchema,
 } from '../validation/auth.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 
@@ -38,9 +42,17 @@ router.post(
 );
 
 router.post(
-  '/reset-pwd',
+  '/reset-password',
   validateBody(resetPasswordSchema),
   ctrlWrapper(resetPasswordController),
+);
+
+router.get('/get-oauth-url', ctrlWrapper(getOAuthController));
+
+router.post(
+  '/confirm-oauth',
+  validateBody(confirmOAuthSchema),
+  ctrlWrapper(confirmOAuthController),
 );
 
 export default router;

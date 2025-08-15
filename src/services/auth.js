@@ -1,7 +1,7 @@
 import * as fs from 'node:fs';
 import path from 'node:path';
 
-import crypto from 'node:crypto';
+import crypto, { randomBytes } from 'node:crypto';
 import bcrypt from 'bcrypt';
 import createHttpError from 'http-errors';
 import { User } from '../models/user.js';
@@ -10,7 +10,6 @@ import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
 
 import Handlebars from 'handlebars';
-
 
 const REQUEST_PASSWORD_RESET_TAMPLATE = fs.readFileSync(
   path.resolve('src/templates/request-password-reset.hbs'),
@@ -91,17 +90,16 @@ export async function requestPasswordReset(email) {
     return;
   }
 
-const token = jwt.sign(
-  {
-    sub: user._id,
-    name: user.name,
-  },
-  process.env.SECRET_JWT,
-  {
-    expiresIn: '15m',
-  }
-);
-
+  const token = jwt.sign(
+    {
+      sub: user._id,
+      name: user.name,
+    },
+    process.env.SECRET_JWT,
+    {
+      expiresIn: '15m',
+    },
+  );
 
   const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
 
@@ -136,3 +134,24 @@ export async function resetPassword(token, password) {
     throw error;
   }
 }
+
+export async function loginOrRegister(email, name) {
+  let user = await User.findOne({ email });
+
+  if (user === null) {
+    const password = await bcrypt.hash(randomBytes(30).toString('base64'), 10);
+
+    user = await User.create({ name, email, password });
+  }
+
+    await Session.deleteOne({ userId: user._id });
+
+  return Session.create({
+    userId: user._id,
+    accessToken: crypto.randomBytes(30).toString('base64'),
+    refreshToken: crypto.randomBytes(30).toString('base64'),
+    accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000), //10minutes
+    refreshTokenValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000), //24 houers
+  });
+}
+
