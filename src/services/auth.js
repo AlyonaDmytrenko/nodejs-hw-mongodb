@@ -11,8 +11,7 @@ import { sendMail } from '../utils/sendMail.js';
 
 import Handlebars from 'handlebars';
 
-
-const REQUEST_PASSWORD_RESET_TAMPLATE = fs.readFileSync(
+const REQUEST_PASSWORD_RESET_TEMPLATE = fs.readFileSync(
   path.resolve('src/templates/request-password-reset.hbs'),
   { encoding: 'utf-8' },
 );
@@ -91,17 +90,16 @@ export async function requestPasswordReset(email) {
     return;
   }
 
-const token = jwt.sign(
-  {
-    sub: user._id,
-    name: user.name,
-  },
-  process.env.SECRET_JWT,
-  {
-    expiresIn: '15m',
-  }
-);
-
+  const token = jwt.sign(
+    {
+      sub: user._id,
+      name: user.name,
+    },
+    process.env.SECRET_JWT,
+    {
+      expiresIn: '15m',
+    },
+  );
 
   const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
 
