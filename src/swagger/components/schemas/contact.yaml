@@ -33,6 +33,10 @@ required:
       default: false
     contactType:
       type: string
+      photo:
+        type: string
+        description: Contact photo
+        default: null
     userId:
       type: string
       description: User id
