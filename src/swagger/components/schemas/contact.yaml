@@ -1,0 +1,48 @@
+type: object
+required:
+  - _id
+  - name
+  - phoneNumber
+  - email
+  - isFavourite
+  - contactType
+  - userId
+  - createdAt 
+  - updatedAt
+  properties:
+    _id:
+      type: string
+      description: Contact id
+      example: 686cdcec293e375b4b466ebd
+    name:
+      type: string
+      description: Contact name
+      example: Oleh Tkachuk
+    phoneNumber:
+      type: string
+      description: Contact phone
+      example: +380200000000
+    email:
+      type: string
+      description: Contact email
+      example: jon.doe@mail.com
+    isFavourite:
+      type: boolean
+      description: Is contact favourite
+      example: false
+      default: false
+    contactType:
+      type: string
+    userId:
+      type: string
+      description: User id
+      example: 68850327edeed9b713f6a161
+    createdAt:
+      type: string
+      format: date-time
+      example: 2025-08-05T20:59:09.466+00:00
+      updatedAt:
+        type: string
+        format: date-time
+        example: 2025-08-05T20:59:31.494+00:00
+
