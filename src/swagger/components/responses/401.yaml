@@ -1,4 +1,4 @@
-description: Contact not found
+description: Unauthorized - session not found or invalid token
 content:
   application/json:
     schema:
@@ -9,10 +9,10 @@ content:
       properties:
         status:
           type: integer
-          example: 404
+          example: 401
         message:
           type: string
-          example: Contact not found
+          example: Session not found
     example:
-      status: 404
-      message: Contact not found
+      status: 401
+      message: Session not found
