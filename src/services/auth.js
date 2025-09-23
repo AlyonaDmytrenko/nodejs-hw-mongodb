@@ -1,5 +1,5 @@
 import * as fs from 'node:fs';
-import path from 'node:path';
+// import path from 'node:path';
 
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
@@ -9,12 +9,12 @@ import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
 
-import Handlebars from 'handlebars';
+// import Handlebars from 'handlebars';
 
-const REQUEST_PASSWORD_RESET_TEMPLATE = fs.readFileSync(
-  path.resolve('src/templates/request-password-reset.hbs'),
-  { encoding: 'utf-8' },
-);
+// const REQUEST_PASSWORD_RESET_TEMPLATE = fs.readFileSync(
+//   path.resolve('src/templates/request-password-reset.hbs'),
+//   { encoding: 'utf-8' },
+// );
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -70,7 +70,6 @@ export async function refreshSession(sessionId, refreshToken) {
     throw new createHttpError.Unauthorized('Session has expired');
   }
 
-  //окрема функція
   await Session.deleteOne({ _id: session._id });
 
   return Session.create({
@@ -82,13 +81,14 @@ export async function refreshSession(sessionId, refreshToken) {
   });
 }
 
-export async function requestPasswordReset(email) {
+export async function sendResetEmail(email) {
   const user = await User.findOne({ email });
 
   if (user === null) {
-    // throw new createHttpError.NotFound("User not found");
     return;
   }
+ 
+  
 
   const token = jwt.sign(
     {
@@ -97,19 +97,24 @@ export async function requestPasswordReset(email) {
     },
     process.env.SECRET_JWT,
     {
-      expiresIn: '15m',
+      expiresIn: '5m',
     },
+    
+    
   );
 
-  const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
+  // const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
 
   await sendMail({
     to: email,
     subject: 'Reset password',
-    html: template({
-      resetPasswordLink: `http://localhost:3000/auth/reset-password?token=${token}`,
-    }),
+    html: `<p>To reset password visite this <a href="http://localhost:3000/auth/reset-password/${token}">link</a></p>`
+    
+    // template({
+    //   resetPasswordLink: `http://localhost:3000/auth/reset-password?token=${token}`,
+    // }),
   });
+  console.log(token);
 }
 
 export async function resetPassword(token, password) {
