@@ -4,19 +4,17 @@ import {
   logoutUser,
   refreshSession,
   sendResetEmail,
-  // resetPassword,
+  resetPwd,
 } from '../services/auth.js';
 
 export async function registerController(req, res, next) {
   try {
     const user = await registerUser(req.body);
-    res
-      .status(201)
-      .json({
-        status: 201,
-        message: 'User registered successfully',
-        data: user,
-      });
+    res.status(201).json({
+      status: 201,
+      message: 'User registered successfully',
+      data: user,
+    });
   } catch (error) {
     next(error);
   }
@@ -100,8 +98,8 @@ export async function refreshController(req, res, next) {
 export async function sendResetEmailController(req, res) {
   await sendResetEmail(req.body.email);
 
-   res.json({ status: 200, message: 'Message sent successfully' });
-    
+  res.json({ status: 200, message: 'Message sent successfully' });
+
   //  try {
   //     await sendResetEmail(req.body.email);
 
@@ -111,14 +109,22 @@ export async function sendResetEmailController(req, res) {
   //    }
 }
 
-// export async function resetPasswordController(req, res, next) {
+export async function resetPwdController(req, res) {
+  const { token, password } = req.body;
+
+    await resetPwd(token, password);
+
+  res.json({ status: 200, message: 'Password reset successfully' });
+
+
+
 //   try {
 //     const { token, password } = req.body;
 
-//     await resetPassword(token, password);
+//     await resetPwd(token, password);
 
 //     res.json({ status: 200, message: 'Password reset successfully' });
 //   } catch (error) {
 //     next(error);
 //   }
-// }
+ }

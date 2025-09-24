@@ -1,4 +1,4 @@
-import * as fs from 'node:fs';
+// import * as fs from 'node:fs';
 // import path from 'node:path';
 
 import crypto from 'node:crypto';
@@ -87,8 +87,6 @@ export async function sendResetEmail(email) {
   if (user === null) {
     return;
   }
- 
-  
 
   const token = jwt.sign(
     {
@@ -99,8 +97,6 @@ export async function sendResetEmail(email) {
     {
       expiresIn: '5m',
     },
-    
-    
   );
 
   // const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
@@ -108,8 +104,8 @@ export async function sendResetEmail(email) {
   await sendMail({
     to: email,
     subject: 'Reset password',
-    html: `<p>To reset password visite this <a href="http://localhost:3000/auth/reset-password/${token}">link</a></p>`
-    
+    html: `<p>To reset password visite this <a href="http://localhost:3000/auth/reset-password/${token}">link</a></p>`,
+
     // template({
     //   resetPasswordLink: `http://localhost:3000/auth/reset-password?token=${token}`,
     // }),
@@ -117,9 +113,11 @@ export async function sendResetEmail(email) {
   console.log(token);
 }
 
-export async function resetPassword(token, password) {
+export async function resetPwd(token, password) {
   try {
     const decoded = jwt.verify(token, process.env.SECRET_JWT);
+
+    console.log(decoded);
 
     const user = await User.findById(decoded.sub);
 
