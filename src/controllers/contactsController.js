@@ -12,7 +12,7 @@ import { parseFilterParams } from '../utils/parseFilterParams.js';
 const handlePhotoUpload = async (file) => {
   if (!file) return null;
 
-  if (process.env.UPLOAD_TO_CLOUDINARY === "true") {
+  if (process.env.UPLOAD_TO_CLOUDINARY === 'true') {
     const result = await uploadToCloudinary(file.path);
     await fs.unlink(file.path);
     return result.secure_url;
@@ -50,7 +50,10 @@ export const getContacts = async (req, res, next) => {
 export const getContact = async (req, res, next) => {
   try {
     const { contactId } = req.params;
-    const contact = await ContactsService.getContactById(contactId, req.user.id);
+    const contact = await ContactsService.getContactById(
+      contactId,
+      req.user.id,
+    );
 
     if (!contact) {
       throw createError(404, 'Contact not found');
@@ -114,7 +117,11 @@ export const updateContact = async (req, res, next) => {
     const updateData = { ...req.body };
     if (photoUrl) updateData.photo = photoUrl;
 
-    const updated = await ContactsService.updateContact(contactId, updateData, req.user.id);
+    const updated = await ContactsService.updateContact(
+      contactId,
+      updateData,
+      req.user.id,
+    );
 
     if (!updated) {
       throw createError(404, 'Contact not found');
@@ -135,7 +142,10 @@ export const patchContact = async (req, res, next) => {
     const { contactId } = req.params;
     const sanitizedContactId = contactId.trim();
 
-    const contact = await ContactsService.getContactById(sanitizedContactId, req.user.id);
+    const contact = await ContactsService.getContactById(
+      sanitizedContactId,
+      req.user.id,
+    );
 
     if (!contact) {
       throw createError(404, 'Contact not found');
@@ -150,13 +160,20 @@ export const patchContact = async (req, res, next) => {
       name: req.body.name ?? contact.name,
       phoneNumber: req.body.phoneNumber ?? contact.phoneNumber,
       email: req.body.email ?? contact.email,
-      isFavourite: req.body.isFavourite !== undefined ? req.body.isFavourite : contact.isFavourite,
+      isFavourite:
+        req.body.isFavourite !== undefined
+          ? req.body.isFavourite
+          : contact.isFavourite,
       contactType: req.body.contactType ?? contact.contactType,
     };
 
     if (photoUrl) updatedData.photo = photoUrl;
 
-    const updatedContact = await ContactsService.updateContact(sanitizedContactId, updatedData, req.user.id);
+    const updatedContact = await ContactsService.updateContact(
+      sanitizedContactId,
+      updatedData,
+      req.user.id,
+    );
 
     res.status(200).json({
       status: 200,
@@ -167,4 +184,3 @@ export const patchContact = async (req, res, next) => {
     next(error);
   }
 };
-
