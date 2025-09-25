@@ -1,20 +1,21 @@
-// import * as fs from 'node:fs';
-// import path from 'node:path';
+import * as fs from 'node:fs';
+import path from 'node:path';
 
 import crypto from 'node:crypto';
 import bcrypt from 'bcrypt';
-import createHttpError from 'http-errors';
+
 import { User } from '../models/user.js';
 import { Session } from '../models/session.js';
 import jwt from 'jsonwebtoken';
 import { sendMail } from '../utils/sendMail.js';
 
-// import Handlebars from 'handlebars';
+import Handlebars from 'handlebars';
+import createHttpError from 'http-errors';
 
-// const REQUEST_PASSWORD_RESET_TEMPLATE = fs.readFileSync(
-//   path.resolve('src/templates/request-password-reset.hbs'),
-//   { encoding: 'utf-8' },
-// );
+const REQUEST_PASSWORD_RESET_TEMPLATE = fs.readFileSync(
+  path.resolve('src/templates/request-pwd-reset.hbs'),
+  { encoding: 'utf-8' },
+);
 
 export async function registerUser(payload) {
   const user = await User.findOne({ email: payload.email });
@@ -32,13 +33,13 @@ export async function loginUser(email, password) {
   const user = await User.findOne({ email });
 
   if (user === null) {
-    throw new createHttpError.Unauthorized('Email or password is incorect');
+    throw new createHttpError.Unauthorized('Email or password is incorrect');
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
 
   if (isMatch !== true) {
-    throw new createHttpError.Unauthorized('Email or password is incorect');
+    throw new createHttpError.Unauthorized('Email or password is incorrect');
   }
 
   await Session.deleteOne({ userId: user._id });
@@ -48,7 +49,7 @@ export async function loginUser(email, password) {
     accessToken: crypto.randomBytes(30).toString('base64'),
     refreshToken: crypto.randomBytes(30).toString('base64'),
     accessTokenValidUntil: new Date(Date.now() + 10 * 60 * 1000), //10minutes
-    refreshTokenValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000), //24 houers
+    refreshTokenValidUntil: new Date(Date.now() + 24 * 60 * 60 * 1000), //24 hours
   });
 }
 
@@ -99,16 +100,14 @@ export async function sendResetEmail(email) {
     },
   );
 
-  // const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TAMPLATE);
+  const template = Handlebars.compile(REQUEST_PASSWORD_RESET_TEMPLATE);
 
   await sendMail({
     to: email,
     subject: 'Reset password',
-    html: `<p>To reset password visite this <a href="http://localhost:3000/auth/reset-password/${token}">link</a></p>`,
-
-    // template({
-    //   resetPasswordLink: `http://localhost:3000/auth/reset-password?token=${token}`,
-    // }),
+    html: template({
+      resetPwdLink: `http://localhost:3000/auth/reset-pwd/${token}`,
+    }),
   });
   console.log(token);
 }
