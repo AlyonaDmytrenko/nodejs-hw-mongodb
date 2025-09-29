@@ -95,20 +95,29 @@ export async function refreshController(req, res, next) {
   }
 }
 
+// export async function sendResetEmailController(req, res, next) {
+//   await sendResetEmail(req.body.email);
+
+//   res.json({ status: 200, message: 'Message sent successfully' });
+
+//    try {
+//       await sendResetEmail(req.body.email);
+
+//        res.json({ status: 200, message: 'Message sent successfully' });
+//     } catch (error) {
+//        next(error);
+//      }
+// }
+
+
 export async function sendResetEmailController(req, res, next) {
-  await sendResetEmail(req.body.email);
-
-  res.json({ status: 200, message: 'Message sent successfully' });
-
-   try {
-      await sendResetEmail(req.body.email);
-
-       res.json({ status: 200, message: 'Message sent successfully' });
-    } catch (error) {
-       next(error);
-     }
+  try {
+    await sendResetEmail(req.body.email);
+    res.json({ status: 200, message: 'Message sent successfully' });
+  } catch (error) {
+    next(error);
+  }
 }
-
 export async function resetPwdController(req, res, next) {
   const { token, password } = req.body;
 
