@@ -14,3 +14,5 @@ export function sendMail(mail) {
   mail.from = process.env.SMTP_FROM;
   return transporter.sendMail(mail);
 }
+
+
