@@ -24,6 +24,7 @@ export function setupServer() {
     });
   });
 
+
   app.use('/contacts', auth, contactsRouter);
 
   app.use(notFoundHandler);
