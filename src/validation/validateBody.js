@@ -10,6 +10,7 @@ export function validateBody(schema) {
 
       req.body = value; 
       next();
+
     } catch (error) {
       const errors = error.details.map((detail) => detail.message);
       next(new createHttpError.BadRequest(errors));
