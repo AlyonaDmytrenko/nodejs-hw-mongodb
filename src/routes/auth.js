@@ -33,6 +33,7 @@ router.post('/refresh', ctrlWrapper(refreshController));
 
 router.post(
   '/send-reset-email',
+  
   validateBody(sendResetEmailSchema),
   ctrlWrapper(sendResetEmailController),
 );

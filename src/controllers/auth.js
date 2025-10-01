@@ -97,8 +97,7 @@ export async function refreshController(req, res, next) {
 
 export async function sendResetEmailController(req, res, next) {
   try {
-    console.log('req.body:', req.body); 
-    await sendResetEmail(req.body.email);
+     await sendResetEmail(req.body.email);
     res.json({ status: 200, message: 'Message sent successfully' });
   } catch (error) {
     next(error);
