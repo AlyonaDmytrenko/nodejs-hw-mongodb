@@ -1,0 +1,22 @@
+tags:
+  - Contacts
+summary: Get contact by id
+operationId: getContact
+discription: Get contact by id
+security:
+  - bearerAuth: []
+
+parameters:
+     - in: paths
+       name: id
+       required: true
+
+
+
+
+
+       
+  #     parameters:
+  # - name:
+  #   in: query
+  #   для contacts
