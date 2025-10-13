@@ -127,3 +127,11 @@ export async function getOAuthController(req, res) {
     },
   });
 }
+
+export async function confirmOAuthController(req, res) {
+const {code}= req.body;
+console.log(code);
+
+
+  res.json({ status: 200, data: 'ok' });
+}

@@ -6,7 +6,8 @@ import {
   refreshController,
   sendResetEmailController,
   resetPwdController,
-  getOAuthController
+  getOAuthController,
+  confirmOAuthController,
 } from '../controllers/auth.js';
 
 import { validateBody } from '../validation/validateBody.js';
@@ -14,7 +15,8 @@ import {
   registerSchema,
   loginSchema,
   sendResetEmailSchema,
-  resetPwdSchema
+  resetPwdSchema,
+  confirmOAuthSchema,
 } from '../validation/auth.js';
 import ctrlWrapper from '../utils/ctrlWrapper.js';
 
@@ -34,7 +36,7 @@ router.post('/refresh', ctrlWrapper(refreshController));
 
 router.post(
   '/send-reset-email',
-  
+
   validateBody(sendResetEmailSchema),
   ctrlWrapper(sendResetEmailController),
 );
@@ -43,11 +45,14 @@ router.post(
   '/reset-pwd',
   validateBody(resetPwdSchema),
   ctrlWrapper(resetPwdController),
-
 );
 
-router.get(
-  '/get-oauth-url',
-  ctrlWrapper(getOAuthController),
+router.get('/get-oauth-url', ctrlWrapper(getOAuthController));
+
+router.post(
+  '/confirm-oauth',
+  validateBody(confirmOAuthSchema),
+  ctrlWrapper(confirmOAuthController),
 );
+
 export default router;

@@ -17,3 +17,7 @@ export async function getOuthURL() {
     ],
   });
 }
+
+export async function validateCode(){
+  
+}
