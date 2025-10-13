@@ -40,15 +40,10 @@ router.post(
 );
 
 router.post(
-<<<<<<< Updated upstream
   '/reset-pwd',
   validateBody(resetPwdSchema),
   ctrlWrapper(resetPwdController),
-=======
-  '/reset-password',
-  validateBody(resetPasswordSchema),
-  ctrlWrapper(resetPasswordController),
->>>>>>> Stashed changes
+
 );
 
 router.get(
