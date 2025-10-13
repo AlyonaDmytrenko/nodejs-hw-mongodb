@@ -5,7 +5,8 @@ import {
   logoutController,
   refreshController,
   sendResetEmailController,
-  resetPwdController
+  resetPwdController,
+  getOAuthController
 } from '../controllers/auth.js';
 
 import { validateBody } from '../validation/validateBody.js';
@@ -44,4 +45,8 @@ router.post(
   ctrlWrapper(resetPwdController),
 );
 
+router.get(
+  '/get-oauth-url',
+  ctrlWrapper(getOAuthController),
+);
 export default router;

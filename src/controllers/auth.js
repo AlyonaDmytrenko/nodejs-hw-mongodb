@@ -115,3 +115,15 @@ export async function resetPwdController(req, res, next) {
     next(error);
   }
 }
+
+export async function getOAuthController(req, res) {
+  res.json({data:"http://google.com"});
+  
+  // try {
+  //   const { token, password } = req.body;
+  //   await resetPwd(token, password);  
+  //   res.json({ status: 200, message: 'Password reset successfully' });
+  // } catch (error) {
+  //   next(error);
+  // }
+}
