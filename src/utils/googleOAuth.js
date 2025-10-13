@@ -18,9 +18,10 @@ export async function getOuthURL() {
   });
 }
 
-export async function validateCode(code){
-const response = await googleOAuth2Client.getToken(code);
+export async function validateCode(code) {
+  const response = await googleOAuth2Client.getToken(code);
 
-console.log(response);
-
+  return googleOAuth2Client.verifyIdToken({
+    idToken: response.tokens.id_token,
+  });
 }

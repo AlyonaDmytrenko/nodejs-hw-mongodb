@@ -5,6 +5,7 @@ import {
   refreshSession,
   sendResetEmail,
   resetPwd,
+  loginOrRegister,
 } from '../services/auth.js';
 
 import { getOuthURL, validateCode } from '../utils/googleOAuth.js';
@@ -129,6 +130,8 @@ export async function getOAuthController(req, res) {
 }
 
 export async function confirmOAuthController(req, res) {
-  await validateCode(req.body.code);
+  const ticket = await validateCode(req.body.code);
+
+  await loginOrRegister(ticket.payload.email, ticket.payload.name);
   res.json({ status: 200, data: 'ok' });
 }
