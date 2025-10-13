@@ -7,6 +7,8 @@ import {
   resetPwd,
 } from '../services/auth.js';
 
+import { getOuthURL } from '../utils/googleOAuth.js';
+
 export async function registerController(req, res, next) {
   try {
     const user = await registerUser(req.body);
@@ -97,19 +99,17 @@ export async function refreshController(req, res, next) {
 
 export async function sendResetEmailController(req, res, next) {
   try {
-     await sendResetEmail(req.body.email);
+    await sendResetEmail(req.body.email);
     res.json({ status: 200, message: 'Message sent successfully' });
   } catch (error) {
     next(error);
   }
 }
 
-
-
 export async function resetPwdController(req, res, next) {
   try {
     const { token, password } = req.body;
-    await resetPwd(token, password);  
+    await resetPwd(token, password);
     res.json({ status: 200, message: 'Password reset successfully' });
   } catch (error) {
     next(error);
@@ -117,13 +117,13 @@ export async function resetPwdController(req, res, next) {
 }
 
 export async function getOAuthController(req, res) {
-  res.json({data:"http://google.com"});
-  
-  // try {
-  //   const { token, password } = req.body;
-  //   await resetPwd(token, password);  
-  //   res.json({ status: 200, message: 'Password reset successfully' });
-  // } catch (error) {
-  //   next(error);
-  // }
+  const url = await getOuthURL();
+
+  res.json({
+    status: 200,
+    message: 'Succesfully get OAuth url',
+    data: {
+      oauth_url: url,
+    },
+  });
 }
