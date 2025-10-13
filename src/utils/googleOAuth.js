@@ -18,6 +18,9 @@ export async function getOuthURL() {
   });
 }
 
-export async function validateCode(){
-  
+export async function validateCode(code){
+const response = await googleOAuth2Client.getToken(code);
+
+console.log(response);
+
 }

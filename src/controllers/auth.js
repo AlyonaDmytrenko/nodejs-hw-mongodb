@@ -7,7 +7,7 @@ import {
   resetPwd,
 } from '../services/auth.js';
 
-import { getOuthURL } from '../utils/googleOAuth.js';
+import { getOuthURL, validateCode } from '../utils/googleOAuth.js';
 
 export async function registerController(req, res, next) {
   try {
@@ -129,9 +129,6 @@ export async function getOAuthController(req, res) {
 }
 
 export async function confirmOAuthController(req, res) {
-const {code}= req.body;
-console.log(code);
-
-
+  await validateCode(req.body.code);
   res.json({ status: 200, data: 'ok' });
 }
