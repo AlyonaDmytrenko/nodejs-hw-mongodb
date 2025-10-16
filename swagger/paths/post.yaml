@@ -14,7 +14,7 @@ requestBody:
           - name
           - phoneNumber
           - email
-          - photo 
+          - photo
         properties:
           name:
             type: string
@@ -22,7 +22,7 @@ requestBody:
             example: John Deer
           phoneNumber:
             type: string
-            description: Phone phoneNumber
+            description: Phone number
             example: +380000000007
           email:
             type: string
@@ -30,13 +30,30 @@ requestBody:
             example: andriy7@example.com
           isFavourite:
             type: boolean
-            description: Contact is Favourite
+            description: Contact is favourite
             example: true
             default: false
           photo:
             type: string
             format: binary
             description: Contact photo
-
-
-      
+responses:
+  '201':
+    description: Created a contact
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - status
+            - message
+            - data
+          properties:
+            status:
+              type: integer
+              example: 201
+            message:
+              type: string
+              example: Contact created successfully
+            data:
+              $ref: ../../components/schemas/contact.yaml
