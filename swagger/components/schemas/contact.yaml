@@ -1,0 +1,39 @@
+type: object
+required:
+  - _id
+  - name
+  - phoneNumber
+  - email
+  - contactType
+  - userId
+properties:
+  _id: 
+    type: string
+    description: Contact _id
+    example: 686cdcec293e375b4b466ebe
+  name:
+    type: string
+    description: Contact name
+    example: Jhone Deer
+  phoneNumber:
+    type: string
+    description: Contact phone phoneNumber
+    example: +380000000007
+  email:
+    type: string
+    description: Contact email
+    example: andriy7@example.com
+  contactType:
+    type: string
+    enum:
+    example:
+  createdAt: 
+    type: string
+    format: data-time
+    example: 2024-05-08T16:12:14.954187
+  updatedAt:
+    type: string
+    format: data-time
+    example: 2024-05-08T16:12:14.954189
+
+
