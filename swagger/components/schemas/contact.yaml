@@ -5,7 +5,7 @@ required:
   - phoneNumber
   - email
   - contactType
-  - userId
+  - photo 
 properties:
   _id: 
     type: string
@@ -27,6 +27,10 @@ properties:
     type: string
     enum:
     example:
+  photo:
+    type: string
+    description: Contact photo
+    default: null
   createdAt: 
     type: string
     format: data-time
