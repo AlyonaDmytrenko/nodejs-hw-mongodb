@@ -25,7 +25,7 @@ properties:
     example: andriy7@example.com
   contactType:
     type: string
-    enum:
+    # enum:
     example:
   photo:
     type: string
