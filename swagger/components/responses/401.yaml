@@ -1,4 +1,4 @@
-discription: Unauthorized Error
+description: Unauthorized Error
 content:
   aplication/json:
     schema:
