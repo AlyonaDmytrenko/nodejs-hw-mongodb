@@ -1,0 +1,21 @@
+description: Bad Request
+content:
+  aplication/json:
+    schema:
+      type: object
+      required:
+        - status
+        - message
+        - data
+      properties:
+        status: 
+          type: integer
+          example: 400
+        message:
+          type: string
+          example: Bad Request
+        data:
+          type: array
+          items: 
+            type: string
+

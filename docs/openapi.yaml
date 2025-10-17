@@ -19,8 +19,8 @@ paths:
       $ref: ../swagger/paths/contacts/{id}/get.yaml
   /contacts:
     post: 
-      $ref: ../swagger/paths/contacts/post.yaml
-components:
+      $ref: "../../../swagger/path/post.yaml
+      components:
   securitySchemes:
     bearerAuth:
       type: http
