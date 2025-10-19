@@ -397,13 +397,56 @@
         ],
         "summary": "Get all contacts",
         "operationId": "getContacts",
-        "description": "Retrieve a list of all contacts (with optional filtering)",
+        "description": "Retrieve a list of all contacts with optional filtering, sorting, and pagination.",
         "security": [
           {
             "bearerAuth": []
           }
         ],
         "parameters": [
+          {
+            "in": "query",
+            "name": "page",
+            "schema": {
+              "type": "integer",
+              "default": 1
+            },
+            "description": "Page number for pagination"
+          },
+          {
+            "in": "query",
+            "name": "perPage",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            },
+            "description": "Number of contacts per page"
+          },
+          {
+            "in": "query",
+            "name": "sortBy",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "name",
+                "email",
+                "createdAt"
+              ]
+            },
+            "description": "Field to sort contacts by"
+          },
+          {
+            "in": "query",
+            "name": "sortOrder",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "asc",
+                "desc"
+              ]
+            },
+            "description": "Sort order (ascending or descending)"
+          },
           {
             "in": "query",
             "name": "isFavourite",
@@ -414,19 +457,16 @@
           },
           {
             "in": "query",
-            "name": "limit",
+            "name": "contactType",
             "schema": {
-              "type": "integer"
+              "type": "string",
+              "enum": [
+                "home",
+                "work",
+                "personal"
+              ]
             },
-            "description": "Limit number of returned contacts"
-          },
-          {
-            "in": "query",
-            "name": "offset",
-            "schema": {
-              "type": "integer"
-            },
-            "description": "Offset for pagination"
+            "description": "Filter contacts by contact type"
           }
         ],
         "responses": {
