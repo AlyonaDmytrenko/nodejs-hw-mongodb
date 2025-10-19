@@ -32,11 +32,11 @@ properties:
     default: null
   createdAt: 
     type: string
-    format: data-time
+    format: date-time
     example: 2024-05-08T16:12:14.954187
   updatedAt:
     type: string
-    format: data-time
+    format: date-time
     example: 2024-05-08T16:12:14.954189
 
 

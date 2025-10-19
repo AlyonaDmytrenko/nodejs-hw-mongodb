@@ -12,6 +12,10 @@ import { auth } from './middlewares/auth.js';
 
 import swaggerUI from 'swagger-ui-express';
 
+import dotenv from 'dotenv';
+
+dotenv.config();
+
 const SWAGGER_DOCUMENT = JSON.parse(
   fs.readFileSync(path.join('docs', 'swagger.json'), 'utf-8')
 );

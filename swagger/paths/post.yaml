@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 requestBody:
   content:
-    multipart/form-date:
+    multipart/form-data:
       schema:
         type: object
         required:

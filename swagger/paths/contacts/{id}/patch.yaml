@@ -1,8 +1,8 @@
 tags:
   - Contacts
-summary: Get contact by id
-operationId: getContact
-description: Get contact by id
+summary: Update contact by id
+operationId: updateContact
+description: Update contact details by id
 security:
   - bearerAuth: []
 parameters:
@@ -12,26 +12,43 @@ parameters:
     schema:
       type: string
     example: "686cdcec293e375b4b466ebe"
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          name:
+            type: string
+            example: Jhone Deer
+          phoneNumber:
+            type: string
+            example: "+380000000007"
+          email:
+            type: string
+            example: andriy7@example.com
+          isFavourite:
+            type: boolean
+            example: true
 responses:
   '200':
-    description: Successfully get contact by id
+    description: Contact updated successfully
     content:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
-            - data
           properties:
             status:
               type: integer
               example: 200
             message:
               type: string
-              example: Successfully get contact
+              example: Contact updated
             data:
               $ref: ../../../components/schemas/contact.yaml
+  '400':
+    $ref: ../../../components/responses/400.yaml
   '401':
     $ref: ../../../components/responses/401.yaml
   '404':
@@ -40,9 +57,6 @@ responses:
       application/json:
         schema:
           type: object
-          required:
-            - status
-            - message
           properties:
             status:
               type: integer
@@ -52,4 +66,3 @@ responses:
               example: Contact not found
   '500':
     $ref: ../../../components/responses/500.yaml
-  
