@@ -9,10 +9,11 @@ import notFoundHandler from './middlewares/notFoundHandler.js';
 import authRoutes from './routes/auth.js';
 import cookieParser from 'cookie-parser';
 import { auth } from './middlewares/auth.js';
+
 import swaggerUI from 'swagger-ui-express';
 
 const SWAGGER_DOCUMENT = JSON.parse(
-  fs.readFileSync(path.join('docs', swaggerUI.json)),
+  fs.readFileSync(path.join('docs', 'swagger.json'), 'utf-8')
 );
 
 export function setupServer() {

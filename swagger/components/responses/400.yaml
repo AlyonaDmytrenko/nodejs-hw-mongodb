@@ -1,6 +1,6 @@
 description: Bad Request
 content:
-  aplication/json:
+  application/json:
     schema:
       type: object
       required:

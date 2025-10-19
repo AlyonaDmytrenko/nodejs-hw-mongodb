@@ -7,7 +7,7 @@ security:
   - bearerAuth: []
 requestBody:
   content:
-    multipart/form-data:
+    multipart/form-date:
       schema:
         type: object
         required:
@@ -23,7 +23,7 @@ requestBody:
           phoneNumber:
             type: string
             description: Phone number
-            example: +380000000007
+            example: "+380000000007"
           email:
             type: string
             description: Contact email
@@ -56,11 +56,11 @@ responses:
               type: string
               example: Contact created successfully
             data:
-              $ref: ../../components/schemas/contact.yaml
- '400':
-    $ref: ../../../components/responses/400.yaml
+              $ref: ../components/schemas/contact.yaml
+  '400':
+    $ref: ../components/responses/400.yaml
   '401':
-    $ref: ../../../components/responses/401.yaml
+    $ref: ../components/responses/401.yaml
   '500':
-    $ref: ../../../components/responses/500.yaml
+    $ref: ../components/responses/500.yaml
 

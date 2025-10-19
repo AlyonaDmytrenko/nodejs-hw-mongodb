@@ -1,6 +1,6 @@
 description: Internal Server Error
 content:
-  aplication/json:
+  application/json:
     schema:
       type: object
       required:
