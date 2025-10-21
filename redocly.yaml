@@ -1,31 +1,18 @@
+# See https://redocly.com/docs/cli/configuration/ for more information.
 apis:
-  sample:
-    root: ./docs/openapi.yaml
-
+  sample@v1:
+    root: docs/openapi.yaml
+extends:
+  - recommended
 rules:
   no-unused-components: error
-
 theme:
-  openapi:
-    htmlTemplate: ./docs/index.html
-    primaryColor: '#32329f'
-
-codeSampleLanguages:
-  - lang: curl
-  - lang: javascript
-# apis:
-#   sample@v1:
-#     root: docs/openapi.yaml
-# extends:
-#   - recommended
-# rules:
-#   no-unused-components: error
-#   htmlTemplate: docs/index.html
-#   colors:
-#     primary:
-#       main: '#32329f'
-#   generateCodeSamples:
-#     languages:
-#       - lang: curl
-#       - lang: Node.js
-#       - lang: JavaScript
+  htmlTemplate: ./docs/index.html
+  colors:
+    primary:
+      main: '#32329f'
+  generateCodeSamples:
+    languages:
+      - lang: curl
+      - lang: Node.js
+      - lang: JavaScript
