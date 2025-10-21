@@ -1,5 +1,6 @@
-apiDefinitions:
-  sample: ./docs/openapi.yaml
+apis:
+  sample:
+    root: ./docs/openapi.yaml
 
 rules:
   no-unused-components: error
@@ -7,14 +8,11 @@ rules:
 theme:
   openapi:
     htmlTemplate: ./docs/index.html
-    colors:
-      primary:
-        main: '#32329f'
+    primaryColor: '#32329f'
 
-codeSamples:
-  languages:
-    - lang: curl
-    - lang: javascript
+codeSampleLanguages:
+  - lang: curl
+  - lang: javascript
 # apis:
 #   sample@v1:
 #     root: docs/openapi.yaml
