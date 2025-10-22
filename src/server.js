@@ -33,12 +33,12 @@ export function setupServer() {
 
   app.use('/auth', authRoutes);
 
-  // app.get('/', (req, res) => {
-  //   res.status(200).json({
-  //     status: 200,
-  //     message: 'Welcome to the Contacts API',
-  //   });
-  // });
+  app.get('/', (req, res) => {
+    res.status(200).json({
+      status: 200,
+      message: 'Welcome to the Contacts API',
+    });
+  });
 
   app.use('/contacts', auth, contactsRouter);
 
