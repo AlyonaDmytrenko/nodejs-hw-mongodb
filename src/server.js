@@ -24,7 +24,7 @@ export function setupServer() {
   const app = express();
 
   app.use(cors());
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
+  app.use('/docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
 
   app.use(express.json());
   app.use(cookieParser());
