@@ -24,14 +24,14 @@ export function setupServer() {
   const app = express();
 
   app.use(cors());
-  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
 
   app.use(express.json());
   app.use(cookieParser());
 
+  app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
   app.use('/photos', express.static(path.resolve('src/uploads/photos')));
-
   app.use('/auth', authRoutes);
+  app.use('/contacts', auth, contactsRouter);
 
   app.get('/', (req, res) => {
     res.status(200).json({
@@ -39,8 +39,6 @@ export function setupServer() {
       message: 'Welcome to the Contacts API',
     });
   });
-
-  app.use('/contacts', auth, contactsRouter);
 
   app.use(notFoundHandler);
 
