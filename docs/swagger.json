@@ -452,8 +452,8 @@
             "schema": {
               "type": "string",
               "enum": [
-                "home",
                 "work",
+                "home",
                 "personal"
               ]
             },
@@ -462,21 +462,85 @@
         ],
         "responses": {
           "200": {
-            "description": "Successfully retrieved contacts",
+            "description": "Successfully retrieved contacts list",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
+                  "required": [
+                    "status",
+                    "message",
+                    "data"
+                  ],
                   "properties": {
                     "status": {
                       "type": "integer",
                       "example": 200
                     },
+                    "message": {
+                      "type": "string",
+                      "example": "Successfully retrieved contacts"
+                    },
                     "data": {
-                      "type": "array",
-                      "items": {
-                        "$ref": "#/components/schemas/contact"
+                      "type": "object",
+                      "required": [
+                        "contacts",
+                        "page",
+                        "perPage",
+                        "totalItems",
+                        "totalPages"
+                      ],
+                      "properties": {
+                        "contacts": {
+                          "type": "array",
+                          "description": "List of contacts",
+                          "items": {
+                            "$ref": "#/components/schemas/contact"
+                          }
+                        },
+                        "page": {
+                          "type": "integer",
+                          "example": 1,
+                          "description": "Current page number"
+                        },
+                        "perPage": {
+                          "type": "integer",
+                          "example": 10,
+                          "description": "Number of contacts per page"
+                        },
+                        "totalItems": {
+                          "type": "integer",
+                          "example": 57,
+                          "description": "Total number of contacts"
+                        },
+                        "totalPages": {
+                          "type": "integer",
+                          "example": 6,
+                          "description": "Total number of pages available"
+                        }
                       }
+                    }
+                  },
+                  "example": {
+                    "status": 200,
+                    "message": "Successfully retrieved contacts",
+                    "data": {
+                      "contacts": [
+                        {
+                          "_id": "686cdcec293e375b4b466ebe",
+                          "name": "John Deer",
+                          "phoneNumber": "+380000000007",
+                          "email": "john.deer@example.com",
+                          "contactType": "personal",
+                          "photo": "https://example.com/uploads/john.jpg",
+                          "createdAt": "2025-10-20T10:15:30.000Z",
+                          "updatedAt": "2025-10-22T09:12:10.000Z"
+                        }
+                      ],
+                      "page": 1,
+                      "perPage": 10,
+                      "totalItems": 57,
+                      "totalPages": 6
                     }
                   }
                 }
