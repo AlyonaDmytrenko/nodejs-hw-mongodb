@@ -29,6 +29,7 @@ export function setupServer() {
   app.use(cookieParser());
 
   app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(SWAGGER_DOCUMENT));
+  
   app.use('/photos', express.static(path.resolve('src/uploads/photos')));
   app.use('/auth', authRoutes);
   app.use('/contacts', auth, contactsRouter);
