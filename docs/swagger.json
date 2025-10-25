@@ -14,7 +14,7 @@
       "url": "http://127.0.0.1:3000"
     },
     {
-      "url": "https://nodejs-hw-mongodb-swagger-nuy9.onrender.com"
+      "url": "https://nodejs-hw-mongodb-new-1-u8ji.onrender.com"
     }
   ],
   "tags": [
@@ -159,6 +159,15 @@
                     "type": "string",
                     "format": "binary",
                     "description": "Optional contact photo file"
+                  },
+                  "contactType": {
+                    "type": "string",
+                    "description": "Type of contact",
+                    "enum": [
+                      "personal",
+                      "work"
+                    ],
+                    "example": "personal"
                   }
                 }
               }
