@@ -1,11 +1,12 @@
 tags:
   - Contacts
-summary: Create contacts
-operationId: createContacts
-description: Create contacts
+summary: Create contact
+operationId: createContact
+description: Create a new contact
 security:
   - bearerAuth: []
 requestBody:
+  required: true
   content:
     multipart/form-data:
       schema:
@@ -22,24 +23,29 @@ requestBody:
             example: John Deer
           phoneNumber:
             type: string
-            description: Phone number
-            example: "+380000000007"
+            description: Contact phone number
+            example: '+380000000007'
           email:
             type: string
-            description: Contact email
+            description: Contact email address
             example: andriy7@example.com
           isFavourite:
             type: boolean
-            description: Contact is favourite
+            description: Whether the contact is a favourite
             example: true
             default: false
           photo:
             type: string
             format: binary
-            description: Contact photo
+            description: Contact photo file
+          contactType:
+            type: string
+            description: Type of contact
+            enum: [personal, work]
+            example: personal
 responses:
   '201':
-    description: Created a contact
+    description: Contact created successfully
     content:
       application/json:
         schema:
@@ -63,4 +69,3 @@ responses:
     $ref: ../components/responses/401.yaml
   '500':
     $ref: ../components/responses/500.yaml
-
